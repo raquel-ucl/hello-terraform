@@ -1,1 +1,3 @@
 credentials.publishsettings
+variables.tf
+terraform.tfstate
