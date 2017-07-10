@@ -12,7 +12,7 @@ variable "resourcesname" {
 
 # create a resource group if it doesn't exist
 resource "azurerm_resource_group" "helloterraform" {
-    name = "helloterraform4"
+    name = "helloterraform8"
     location = "ukwest"
 }
 
@@ -61,7 +61,7 @@ resource "azurerm_public_ip" "helloterraformips" {
     location = "ukwest"
     resource_group_name = "${azurerm_resource_group.helloterraform.name}"
     public_ip_address_allocation = "dynamic"
-    domain_name_label = "helloterraform4"
+    domain_name_label = "helloterraform8"
 
     tags {
         environment = "TerraformDemo"
@@ -85,7 +85,7 @@ resource "azurerm_network_interface" "helloterraformnic" {
 
 # create storage account
 resource "azurerm_storage_account" "helloterraformstorage" {
-    name = "terraformstorage12"
+    name = "terraformstorage16"
     resource_group_name = "${azurerm_resource_group.helloterraform.name}"
     location = "ukwest"
     account_type = "Standard_LRS"
@@ -148,7 +148,7 @@ resource "azurerm_virtual_machine" "helloterraformvm" {
 
     connection {
         # host = "${azurerm_public_ip.helloterraformips}"
-        host = "helloterraform4.ukwest.cloudapp.azure.com"
+        host = "helloterraform8.ukwest.cloudapp.azure.com"
         #host = "/subscriptions/962877a6-abbd-4d1f-93e2-3d8094dc6682/resourceGroups/terraformtest/providers/Microsoft.Network/publicIPAddresses/terraformtestip"
         user = "testadmin"
       #  password = "Password1234"
@@ -160,14 +160,13 @@ resource "azurerm_virtual_machine" "helloterraformvm" {
 
     provisioner "remote-exec" {
         inline = [
+          "sudo apt-get update",
           "sudo apt-get install docker.io -y",
           "git clone https://github.com/UCL-CloudLabs/Docker-sample.git",
           "cd Docker-sample",
           "sudo docker build -t hello-flask .",
-          "sudo docker run -p 5000:5000 hello-flask"
+          "sudo docker run -d -p 5000:5000 hello-flask"
         ]
-
-
     }
 
     tags {
